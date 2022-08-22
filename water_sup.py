@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 time = 20
+
 tank_vol = 2000
 usage_of_water = []
 days = []
