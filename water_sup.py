@@ -21,6 +21,7 @@ days = np.arange(0, time, 1)
 poly = np.polyfit(days, usage_of_water, deg=1)
 p = np.poly1d(poly)
 i = 0
+
 for l in usage_of_water:
   if l > 0:
     plt.plot(i, l, 'r+')
