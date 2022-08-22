@@ -9,7 +9,7 @@ dict = {'usage_of_water': usage_of_water}
 df = pd.DataFrame(dict)
 df.to_csv('data.csv')
 
-
+#TODO: Implement adding data
 
 # interpolating data 
 usage_of_water = df['usage_of_water'].tolist()
