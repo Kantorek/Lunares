@@ -27,9 +27,13 @@ while True:
     df.to_csv('data.csv')
     continue
   elif todo_str == 'd':
-    empty_df = pd.DataFrame({'usage_of_water': []})
-    empty_df.to_csv('data.csv')
-    continue
+    todo_str = input('Are You sure You wanna delete all data? (y/n): ')
+    if todo_str == 'y':
+      empty_df = pd.DataFrame({'usage_of_water': []})
+      empty_df.to_csv('data.csv')
+      continue
+    else:
+      continue
   elif todo_str == 'c':
     break
   else:
@@ -39,16 +43,16 @@ while True:
 
 # interpolating data 
 # TODO: Looping for the best interpolation deg and roots
+df = pd.read_csv('data.csv')
 usage_of_water = df['usage_of_water'].tolist()
-days = []
-for x in range(1, time*2+2):
-  days.append(x)
+# usage_of_water = [1966, 1863, 1831, 1714, 1678, 1577, 1494, 1380, 1256, 1217, 1180, 1139, 1034, 925, 869, 773, 732, 682]
 time = len(usage_of_water)
 days = np.arange(0, time, 1)
 poly = np.polyfit(days, usage_of_water, deg=1)
 p = np.poly1d(poly)
 
 days = np.arange(0, 2*time, 1)
+print(np.roots(p))
 days_left = int((np.roots(p)[0] - len(usage_of_water) + 1)/2)
 # ploting real data
 i = 0
@@ -65,7 +69,7 @@ plt.xlim(0, len(days))
 plt.ylim(0, tank_vol)
 
 plt.title("Interpolation of water consumpion. {} days to end of water".format(days_left))
-plt.xlabel("Days")
+plt.xlabel("HabCheck number")
 plt.ylabel("Water in tank [l]")
 plt.legend()
 plt.show()
