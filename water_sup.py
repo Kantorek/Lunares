@@ -13,6 +13,7 @@ print('Welcome in WaterExp 1.0: ')
 while True:
   todo_str = input('Import data from csv file (i), add new data (a), delete data (d), calculate interpolation (c): ')
   if todo_str == 'i':
+    df = pd.DataFrame(dict)
     df = pd.read_csv('data.csv')
     print(df)
   elif todo_str == 'a':
@@ -43,10 +44,13 @@ while True:
 
 # interpolating data 
 # TODO: Looping for the best interpolation deg and roots
+
 df = pd.read_csv('data.csv')
 usage_of_water = df['usage_of_water'].tolist()
 # usage_of_water = [1966, 1863, 1831, 1714, 1678, 1577, 1494, 1380, 1256, 1217, 1180, 1139, 1034, 925, 869, 773, 732, 682]
 time = len(usage_of_water)
+
+# TODO: change from number of habchecks to days 
 days = np.arange(0, time, 1)
 poly = np.polyfit(days, usage_of_water, deg=1)
 p = np.poly1d(poly)
