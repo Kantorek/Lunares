@@ -2,20 +2,24 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-time = 20
+# TODO: Reformat var naming
+time = 40
 tank_vol = 2000
-
+# TODO: Change from water lvl to usage per day
 usage_of_water = []
 dict = {'usage_of_water': usage_of_water}
 df = pd.DataFrame(dict)
 
-print('Welcome in WaterExp 1.0: ')
+print('Welcome in WaterExp 1.2: ')
 while True:
   todo_str = input('Import data from csv file (i), add new data (a), delete data (d), calculate interpolation (c): ')
   if todo_str == 'i':
     df = pd.DataFrame(dict)
     df = pd.read_csv('data.csv')
-    print(df)
+    print(df[['usage_of_water']])
+    if df.empty:
+      print('No data, entry messeruments')
+      continue
   elif todo_str == 'a':
     new_data = input('Entry new data: ')
     try:
@@ -24,7 +28,7 @@ while True:
       print('Wrong type of data')
       continue
     df.loc[len(df.index)] = new_data
-    print(df)
+    print(df[['usage_of_water']])
     df.to_csv('data.csv')
     continue
   elif todo_str == 'd':
@@ -32,9 +36,7 @@ while True:
     if todo_str == 'y':
       empty_df = pd.DataFrame({'usage_of_water': []})
       empty_df.to_csv('data.csv')
-      continue
-    else:
-      continue
+    continue
   elif todo_str == 'c':
     break
   else:
@@ -42,7 +44,7 @@ while True:
     continue
   break
 
-# interpolating data 
+# extrapolating data 
 # TODO: Looping for the best interpolation deg and roots
 
 df = pd.read_csv('data.csv')
@@ -50,7 +52,8 @@ usage_of_water = df['usage_of_water'].tolist()
 # usage_of_water = [1966, 1863, 1831, 1714, 1678, 1577, 1494, 1380, 1256, 1217, 1180, 1139, 1034, 925, 869, 773, 732, 682]
 time = len(usage_of_water)
 
-# TODO: change from number of habchecks to days 
+# TODO: change from number of habchecks to days
+
 days = np.arange(0, time, 1)
 poly = np.polyfit(days, usage_of_water, deg=1)
 p = np.poly1d(poly)
@@ -67,12 +70,12 @@ for l in usage_of_water:
 plt.plot(i-1, usage_of_water[-1], 'r+', label="Real usage of water")
 
 # ploting interpolated data
-plt.plot(days, p(days), label="Interpolated usage of water")
+plt.plot(days, p(days), label="Extrapolated usage of water")
 
 plt.xlim(0, len(days))
 plt.ylim(0, tank_vol)
 
-plt.title("Interpolation of water consumpion. {} days to end of water".format(days_left))
+plt.title("Extrapolation of water consumpion. {} days to end of water".format(days_left))
 plt.xlabel("HabCheck number")
 plt.ylabel("Water in tank [l]")
 plt.legend()
